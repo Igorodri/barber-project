@@ -64,6 +64,7 @@ const componentSelecionado = computed(() => {
 nav {
     display: flex;
     justify-content: space-evenly;
+    font-weight: bold;
 }
 
 nav span:hover {

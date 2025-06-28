@@ -15,9 +15,27 @@
   padding: 0;
   box-sizing: border-box;
   color: var(--cor-fonte);
+  font-family:Arial, Helvetica, sans-serif;
 }
 
 body{
   background-color: var(--cor-fundo);
+}
+
+.section-page{
+  display: flex;
+  justify-content: center;
+  margin-top: 80px;
+}
+
+.page{
+  width: 80%;
+  border: 2px solid var(--cor-principal);
+  border-radius: 8px;
+}
+
+.page-title{
+  margin: 10px;
+  font-size: 16px;
 }
 

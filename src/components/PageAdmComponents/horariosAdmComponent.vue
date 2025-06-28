@@ -1,3 +1,15 @@
 <template>
-    <h1>teste3</h1>
+    <section class="section-page">
+        <div class="page">
+            <div class="page-title">
+                <h1>Gerenciar Horários</h1>
+            </div>
+
+            <div class="content-page">
+                
+            </div>
+            
+        </div>
+    </section>
+    
 </template>

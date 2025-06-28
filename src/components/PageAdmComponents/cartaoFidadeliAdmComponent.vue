@@ -1,3 +1,15 @@
 <template>
-    <h1>teste1</h1>
+    <section class="section-page">
+        <div class="page">
+            <div class="page-title">
+                <h1>Gerenciar Cartão Fidelidade</h1>
+            </div>
+
+            <div class="content-page">
+                
+            </div>
+            
+        </div>
+    </section>
+    
 </template>

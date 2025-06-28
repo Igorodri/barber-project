@@ -8,7 +8,6 @@
             <img :src="profile" alt="img-perfil" class="img_perfil">
             <div v-if="mostrandoMenu" class="menu">
                 <ul>
-                <li @click="verPerfil">Informações do perfil</li>
                 <li @click="configuracoes">Configurações</li>
                 <li @click="sair">Sair</li>
                 </ul>
