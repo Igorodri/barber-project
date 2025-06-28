@@ -18,9 +18,6 @@ function mudarForm(){
     form.confirmarsenha = ''
 }
 
-
-
-
 const route = useRoute()
 
 </script>
@@ -73,6 +70,10 @@ const route = useRoute()
     width: 80px;
 }
 
+.form form input{
+    color: var(--cor-fundo);
+}
+
 .form form input, button{
     width: 250px;
     margin-top: 10px;
@@ -85,10 +86,12 @@ const route = useRoute()
     border: none;
     margin: 40px 0px 0px 0px;
     cursor: pointer;
+    font-weight: bold;
+    background-color: var(--cor-principal);
 }
 
 .form form button:hover{
-    background-color: var(--cor-principal);
+    background-color: #FFC300;
     color: var(--cor-fonte);
 }
 

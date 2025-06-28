@@ -90,13 +90,20 @@ header{
 <script setup>
 import logo from '../src/assets/logo.png'
 import profile from '../src/assets/profile.png'
+import { useRoute } from 'vue-router';
 import {ref} from 'vue'
+
+const route = useRoute()
 
 const mostrandoMenu = ref(false);
 
 function mostrarMenu(){
     mostrandoMenu.value = !mostrandoMenu.value  
     document.getElementsByClassName('perfil').classlist.add("perfil_clicado")
+}
+
+function sair(){
+    window.location = '/'
 }
 
 </script>
