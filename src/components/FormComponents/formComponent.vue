@@ -27,7 +27,7 @@ function mudarForm(){
 
 async function login(){
   try{
-    const response = await fetch('http://localhost:3000/login', {
+    const response = await fetch('https://barber-project-backend.vercel.app/login', {
       method:'POST',
       headers: {
           'Content-Type':'application/json'
@@ -93,7 +93,7 @@ async function login(){
 
 async function cadastro(){
     try{
-        const response = await fetch('http://localhost:3000/cadastro', {
+        const response = await fetch('https://barber-project-backend.vercel.app/cadastro', {
             method:'POST',
             headers: {
                 'Content-Type':'application/json'
