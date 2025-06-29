@@ -1,16 +1,15 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 
 import meusHorarios from '../PageClienteComponents/horariosClienteComponent.vue'
-import agenda from '../PageClienteComponents/agendaClienteComponent.vue'
 import cartaoFidelidade from '../PageClienteComponents/cartaoFidelidadeComponent.vue'
 
 const abaAtual = ref('horarios')
+const username = ref('')
 
 const abas = [
     { id: 'horarios', label: 'Meus Horários' },
-    { id: 'agenda', label: 'Agenda' },
-    { id: 'cartaoFidelidade', label: 'Cartão Fidelidade' },
+    { id: 'cartaoFidelidade', label: 'Cartão Fidelidade' }
 ]
 
 const componentSelecionado = computed(() => {
@@ -26,12 +25,33 @@ const componentSelecionado = computed(() => {
     }
 })
 
+function decodeToken(token) {
+  try {
+    const payload = token.split('.')[1]
+    const decoded = JSON.parse(atob(payload))
+    return decoded
+  } catch (e) {
+    console.error('Token inválido', e)
+    return null
+  }
+}
+
+onMounted(() => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    const decoded = decodeToken(token)
+    if (decoded?.username) {
+      username.value = decoded.username
+    }
+  }
+})
+
 </script>
 
 <template>
     <section>
         <div class="area-title"> 
-            <h2>Bem-vindo <span class="usuario">Usuário</span></h2>
+            <h2>Bem-vindo <span class="usuario">{{username || 'Visitante'}}</span></h2>
         </div>
 
         <nav>

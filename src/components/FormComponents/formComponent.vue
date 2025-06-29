@@ -1,9 +1,14 @@
 <script setup>
 import logo from '../../assets/logo.png'
-import {useRoute, RouterLink} from 'vue-router'
+import {useRouter} from 'vue-router'
 import {reactive, ref} from 'vue'
+import Toastify from 'toastify-js'
+import 'toastify-js/src/toastify.css'
 
-const route = useRoute()
+
+
+const router = useRouter()
+
 const Login = ref(true)
 
 
@@ -20,16 +25,83 @@ function mudarForm(){
     form.senhaConfirmar = ''
 }
 
-async function handleLogin(){
+async function login(){
+  try{
+    const response = await fetch('http://localhost:3000/login', {
+      method:'POST',
+      headers: {
+          'Content-Type':'application/json'
+      },
+      body: JSON.stringify({
+          username: form.user,
+          password: form.senha
+      })
+    });
+    
+    const data = await response.json();
+
+    if(response.ok){
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('adm', data.adm.toString());
+
+      if(data.adm == 1){
+        router.push('/adm');  
+      }else{
+        router.push('/home');  
+      }
+         
+   
+
+      Toastify({
+          text: "Login realizado com sucesso!",
+          close:true,
+          duration: 3000,
+          gravity: "top",
+          position: "right",
+          style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)"
+          }
+      }).showToast();
+
+    } else {
+      Toastify({
+        text: data.error || "Erro ao realizar login.",
+        close:true,
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+        style: {
+          background: "linear-gradient(to right, #ff0000, #ec5353)"
+        }
+      }).showToast();
+    }
+  }catch(error){
+    Toastify({
+        text: "Erro de conexão com o servidor",
+        close:true,
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+        style: {
+          background: "linear-gradient(to right, #ff0000, #ec5353)"
+        }
+    }).showToast();
+    console.error(error);
+  }
+}
+
+
+async function cadastro(){
     try{
-        const response = await fetch('', {
+        const response = await fetch('http://localhost:3000/cadastro', {
             method:'POST',
             headers: {
                 'Content-Type':'application/json'
             },
-            body:JSON.stringify({
-                username:form.user,
-                password:form.password
+            body: JSON.stringify({
+                username: form.user,
+                password: form.senha,
+                password_confirm: form.senhaConfirmar
             })
         });
         
@@ -37,43 +109,54 @@ async function handleLogin(){
 
         if(response.ok){
             Toastify({
-            text: "Login realizado com sucesso!",
-            close:true,
-            duration: 3000,
-            gravity: "top",
-            position: "right",
-            close: true,
-            style: {
-              background: "linear-gradient(to right, #00b09b, #96c93d)"
-            }
-          }).showToast()
-            localStorage.setItem('token', data.token);
-            route.push('/home') 
+                text: "Cadastro realizado com sucesso!",
+                close:true,
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                style: {
+                  background: "linear-gradient(to right, #00b09b, #96c93d)"
+                }
+            }).showToast();
+
+            form.user = ''
+            form.senha = ''
+            form.senhaConfirmar = ''
+ 
         }else{
             Toastify({
-              text: data.error || "Erro ao realizar login.",
+              text: data.error || "Erro ao realizar cadastro.",
               close:true,
               duration: 3000,
               gravity: "top",
               position: "right",
-              close: true,
               style: {
                 background: "linear-gradient(to right, #ff0000, #ec5353)"
               }
-            }).showToast()
+            }).showToast();
         }
     }catch(error){
-        error.value = 'Erro de conexão com o servidor'
-        console.error(error)
+        Toastify({
+            text: "Erro de conexão com o servidor",
+            close:true,
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            style: {
+              background: "linear-gradient(to right, #ff0000, #ec5353)"
+            }
+        }).showToast();
+        console.error(error);
     }
 }
+
 
 
 </script>
 
 <template>
     <section class="form">
-        <form @submit.prevent="handleLogin">
+        <form @submit.prevent="Login ? login() : cadastro()">
             <img :src="logo" alt="logo_barbearia">
 
             <input type="text" v-model="form.user" placeholder="Digite seu usuário" required> 

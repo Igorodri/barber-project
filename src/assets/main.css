@@ -39,6 +39,8 @@ body.blur{
   width: 80%;
   border: 2px solid var(--cor-principal);
   border-radius: 8px;
+  height: 100%;
+  min-height: 50vh;
 }
 
 .page-title{

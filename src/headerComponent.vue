@@ -91,11 +91,12 @@ header{
 <script setup>
 import logo from '../src/assets/logo.png'
 import profile from '../src/assets/profile.png'
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import {ref} from 'vue'
 import Configuracoes from './components/FuncionalidadesPerfil/configuracoes.vue';
 
 const route = useRoute()
+const router = useRouter()
 
 const mostrandoMenu = ref(false);
 const componentSelecionado = ref('')
@@ -106,7 +107,9 @@ function mostrarMenu(){
 }
 
 function sair(){
-    window.location = '/'
+  localStorage.removeItem("token")
+  router.push('/') 
+  
 }
 
 function configuracoes(){

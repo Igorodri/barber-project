@@ -9,7 +9,7 @@
             
 
             <label for="">Adicionar Foto</label>
-            <input type="text">
+            <input type="file">
 
             <label for="">Nome de usuário</label>
             <p>Usuário</p>

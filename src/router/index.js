@@ -26,4 +26,21 @@ const router = createRouter({
     routes
 })
 
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token');
+  const adm = localStorage.getItem('adm')
+
+  const rotaadm = ['adm']
+  const rotasPrivadas = ['cliente', 'adm'];
+
+  if (rotasPrivadas.includes(to.name) && !token) {
+
+    return next({ name: 'form' });
+  }else if(rotaadm.includes(to.name) && adm !== '1'){
+    return next({name: 'cliente'});
+  }
+
+  next();
+});
+
 export default router

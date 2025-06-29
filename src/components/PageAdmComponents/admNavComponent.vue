@@ -1,17 +1,14 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 
 import HorariosAdm from './horariosAdmComponent.vue'
-import agenda from '../PageClienteComponents/agendaClienteComponent.vue'
-import funcionariosComponent from './funcionariosComponent.vue'
 import cartaoFidadeliAdmComponent from './cartaoFidadeliAdmComponent.vue'
 
 const abaAtual = ref('horariosadm')
+const username = ref('')
 
 const abas = [
     { id: 'horariosadm', label: 'Gerenciar Horários' },
-    { id: 'agenda', label: 'Agenda' },
-    {id: 'funcionarios', label: 'Gerenciar Funcionários'},
     { id: 'cartaoFidelidadeadm', label: 'Gerenciar Cartão Fidelidade' },
 ]
 
@@ -23,19 +20,40 @@ const componentSelecionado = computed(() => {
             return agenda
         case 'cartaoFidelidadeadm':
             return cartaoFidadeliAdmComponent
-        case 'funcionarios':
-            return funcionariosComponent
         default:
             return null
     }
 })
+
+
+function decodeToken(token) {
+  try {
+    const payload = token.split('.')[1]
+    const decoded = JSON.parse(atob(payload))
+    return decoded
+  } catch (e) {
+    console.error('Token inválido', e)
+    return null
+  }
+}
+
+onMounted(() => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    const decoded = decodeToken(token)
+    if (decoded?.username) {
+      username.value = decoded.username
+    }
+  }
+})
+
 
 </script>
 
 <template>
     <section>
             <div class="area-title"> 
-                <h2>Bem-vindo <span class="usuario">Administrador</span></h2>
+                <h2>Bem-vindo <span class="usuario">{{username || 'Administrador'}}</span></h2>
             </div>
 
                 <nav>
