@@ -4,6 +4,8 @@
 --cor-fundo: 	#000000;
 --cor-fonte:#ffffff;
 --cor-sombra: rgba(255, 255, 255, 0.15);
+--cor-fundo-menus: #222;
+--cor-button-selecionado: #ffd95d;
 }
 
 
@@ -22,6 +24,11 @@ body{
   background-color: var(--cor-fundo);
 }
 
+body.blur{
+    filter: blur(5px);
+    transition: filter 0.3s ease;
+}
+
 .section-page{
   display: flex;
   justify-content: center;
@@ -38,4 +45,5 @@ body{
   margin: 10px;
   font-size: 16px;
 }
+
 

@@ -14,9 +14,11 @@
             </div>
         </div>
     </header>
+
+    <component :is="componentSelecionado" @fechar="fecharConfiguracoes"/>
 </template>
 
-<style scoped>
+<style>
 
 header{
     display: flex;
@@ -59,7 +61,7 @@ header{
   position: absolute;
   top: 50px;
   right: 0;
-  background-color: #222;
+  background-color: var(--cor-fundo-menus);
   color: white;
   border-radius: 8px;
   padding: 10px 0;
@@ -91,10 +93,12 @@ import logo from '../src/assets/logo.png'
 import profile from '../src/assets/profile.png'
 import { useRoute } from 'vue-router';
 import {ref} from 'vue'
+import Configuracoes from './components/FuncionalidadesPerfil/configuracoes.vue';
 
 const route = useRoute()
 
 const mostrandoMenu = ref(false);
+const componentSelecionado = ref('')
 
 function mostrarMenu(){
     mostrandoMenu.value = !mostrandoMenu.value  
@@ -105,4 +109,11 @@ function sair(){
     window.location = '/'
 }
 
+function configuracoes(){
+    componentSelecionado.value = Configuracoes
+}
+
+function fecharConfiguracoes(){
+    componentSelecionado.value = null
+}
 </script>

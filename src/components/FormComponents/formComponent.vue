@@ -3,33 +3,82 @@ import logo from '../../assets/logo.png'
 import {useRoute, RouterLink} from 'vue-router'
 import {reactive, ref} from 'vue'
 
-let Login = ref(true)
+const route = useRoute()
+const Login = ref(true)
+
 
 const form = reactive({
-    email: '',
+    user: '',
     senha: '',
-    confirmarsenha: ''
+    senhaConfirmar: ''
 })
 
 function mudarForm(){
     Login.value = !Login.value
-    form.email = ''
+    form.user = ''
     form.senha = ''
-    form.confirmarsenha = ''
+    form.senhaConfirmar = ''
 }
 
-const route = useRoute()
+async function handleLogin(){
+    try{
+        const response = await fetch('', {
+            method:'POST',
+            headers: {
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify({
+                username:form.user,
+                password:form.password
+            })
+        });
+        
+        const data = await response.json();
+
+        if(response.ok){
+            Toastify({
+            text: "Login realizado com sucesso!",
+            close:true,
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            close: true,
+            style: {
+              background: "linear-gradient(to right, #00b09b, #96c93d)"
+            }
+          }).showToast()
+            localStorage.setItem('token', data.token);
+            route.push('/home') 
+        }else{
+            Toastify({
+              text: data.error || "Erro ao realizar login.",
+              close:true,
+              duration: 3000,
+              gravity: "top",
+              position: "right",
+              close: true,
+              style: {
+                background: "linear-gradient(to right, #ff0000, #ec5353)"
+              }
+            }).showToast()
+        }
+    }catch(error){
+        error.value = 'Erro de conexão com o servidor'
+        console.error(error)
+    }
+}
+
 
 </script>
 
 <template>
     <section class="form">
-        <form>
+        <form @submit.prevent="handleLogin">
             <img :src="logo" alt="logo_barbearia">
 
-            <input type="text" v-model="form.email" placeholder="Digite seu usuário"> 
-            <input type="password" v-model="form.senha" placeholder="Digite sua senha">
-            <input type="password" v-model="form.confirmarsenha" v-if="!Login" placeholder="Confirme a sua senha">
+            <input type="text" v-model="form.user" placeholder="Digite seu usuário" required> 
+            <input type="password" v-model="form.senha" placeholder="Digite sua senha" required>
+            <input type="password" v-model="form.senhaConfirmar" v-if="!Login" placeholder="Confirme a sua senha" required>
 
             <button type="submit" >{{Login? 'Entrar' : 'Cadastrar'}}</button>
 
@@ -91,7 +140,7 @@ const route = useRoute()
 }
 
 .form form button:hover{
-    background-color: #FFC300;
+    background-color: var(--cor-button-selecionado);
     color: var(--cor-fonte);
 }
 
