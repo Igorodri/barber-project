@@ -8,7 +8,7 @@ const abaAtual = ref('horarios')
 const username = ref('')
 
 const abas = [
-    { id: 'horarios', label: 'Meus Horários' },
+    { id: 'horarios', label: 'Horários' },
     { id: 'cartaoFidelidade', label: 'Cartão Fidelidade' }
 ]
 

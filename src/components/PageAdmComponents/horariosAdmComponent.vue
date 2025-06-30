@@ -14,10 +14,22 @@
 
 
                 <div class="area-horarios">
-                    <calendarioComponent/>
+                    <calendarioComponent @dataSelecionada="buscarHorarios"/>
 
                     <div class="horarios-disponiveis">
                         <h2>Horários Disponíveis</h2>
+                        <div :class="['container', { active: horarios.length > 3 }]">
+                            <boxCalendario
+                            v-for="(horario,i) in horarios"
+                            :key = "i"
+                            :id="horario.id"
+                            :dia="horario.dia"
+                            :horario = "horario.hora"
+                        />
+                        </div>
+                        
+
+                        <p v-if="horarios.length === 0">Nenhum horário disponível.</p>
                     </div>  
                 </div>
 
@@ -42,6 +54,11 @@
         border: none;
         margin: 0px 10px 0px 10px ;
         cursor: pointer;
+    }
+
+    .active{
+        overflow-y: scroll;
+        height: 250px;
     }
 
     .add{
@@ -75,9 +92,31 @@
         margin-top: 50px;
     }
 
+    h2{
+        text-align: center;
+    }
+
 
 </style>
 
 <script setup>
-import calendarioComponent from '../FuncionalidadesPerfil/calendarioComponent.vue';
+import { ref } from 'vue'
+import axios from 'axios'
+import calendarioComponent from '../FuncionalidadesPerfil/calendarioComponent.vue'
+import boxCalendario from '../FuncionalidadesPerfil/boxCalendarioComponent.vue'
+
+const horarios = ref([])
+
+
+async function buscarHorarios(data) {
+  try {
+    const response = await axios.get(`https://barber-project-backend.vercel.app/horarios?data=${data}`)
+    horarios.value = response.data
+  } catch (error) {
+    console.error('Erro ao buscar horários:', error)
+    horarios.value = []
+  }
+}
+
+
 </script>
