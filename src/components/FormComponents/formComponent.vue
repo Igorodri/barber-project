@@ -5,8 +5,6 @@ import {reactive, ref} from 'vue'
 import Toastify from 'toastify-js'
 import 'toastify-js/src/toastify.css'
 
-
-
 const router = useRouter()
 
 const Login = ref(true)
@@ -27,7 +25,7 @@ function mudarForm(){
 
 async function login(){
   try{
-    const response = await fetch('https://barber-project-backend.vercel.app/login', {
+    const response = await fetch(import.meta.env.VITE_URL_API+'/login', {
       method:'POST',
       headers: {
           'Content-Type':'application/json'
@@ -93,7 +91,7 @@ async function login(){
 
 async function cadastro(){
     try{
-        const response = await fetch('https://barber-project-backend.vercel.app/cadastro', {
+        const response = await fetch(import.meta.env.VITE_URL_API+'/cadastro', {
             method:'POST',
             headers: {
                 'Content-Type':'application/json'
@@ -249,5 +247,22 @@ async function cadastro(){
     text-decoration: none;
 }
 
+/* Header Celular Menores */
+@media (min-width: 300px) and (max-width: 767px) {
+
+}
+
+/* Header tablets*/
+@media (min-width: 768px) and (max-width: 1024px) {
+
+
+}
+
+/* Header notebook*/
+@media (min-width: 1025px) and (max-width: 1440px) {
+.form{
+    height: 100vh;
+}
+}
 
 </style>

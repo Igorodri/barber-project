@@ -90,7 +90,4 @@
 
 <script setup>
 
-function sairConfiguracoes(){
-    componentSelecionado.value = ''
-}
 </script>

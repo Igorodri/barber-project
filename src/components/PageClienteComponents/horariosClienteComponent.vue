@@ -16,7 +16,7 @@
 
                     <div class="horarios-disponiveis">
                         <h2>Horários Disponíveis</h2>
-                        <div :class="['container', { active: horarios.length > 3 }]">
+                        <div :class="['container', { active: horarios.length > 2 }]">
                             <boxCalendario
                             v-for="(horario,i) in horarios"
                             :key = "i"
@@ -49,7 +49,7 @@ const horarios = ref([])
 
 async function buscarHorarios(data) {
   try {
-    const response = await axios.get(`https://barber-project-backend.vercel.app/horarios?data=${data}`)
+    const response = await axios.get(import.meta.env.VITE_URL_API+`/horarios?data=${data}`)
     horarios.value = response.data
   } catch (error) {
     console.error('Erro ao buscar horários:', error)

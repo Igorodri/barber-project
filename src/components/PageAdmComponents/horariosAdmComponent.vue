@@ -1,24 +1,25 @@
 <template>
     <section class="section-page">
         <div class="page">
+            <component :is="componentSelecionado" @fechar="fecharAba"/>
             <div class="page-title">
                 <h1>Gerenciar Horários</h1>
             </div>
 
             <div class="content-page">
                 <div class="area-btn">
-                    <button class="add">Adicionar Horário</button>
+                    <button class="add" @click="abrirAdd">Adicionar Horário</button>
                     <button class="delete">Deletar Horário</button>
                     <button class="put">Editar Horário</button>
                 </div>
 
-
+        
                 <div class="area-horarios">
                     <calendarioComponent @dataSelecionada="buscarHorarios"/>
 
                     <div class="horarios-disponiveis">
                         <h2>Horários Disponíveis</h2>
-                        <div :class="['container', { active: horarios.length > 3 }]">
+                        <div :class="['container', { active: horarios.length > 2 }]">
                             <boxCalendario
                             v-for="(horario,i) in horarios"
                             :key = "i"
@@ -105,18 +106,45 @@ import axios from 'axios'
 import calendarioComponent from '../FuncionalidadesPerfil/calendarioComponent.vue'
 import boxCalendario from '../FuncionalidadesPerfil/boxCalendarioComponent.vue'
 
+import addHorarios from '../PageAdmComponents/addhorarioComponent.vue'
+
 const horarios = ref([])
+const componentSelecionado = ref('')
+const add = ref(false)
+// const abrirDelete = ref(false)
+// const abrirPut = ref(false)
+
+function abrirAdd(){
+    add.value = !add.value
+    componentSelecionado.value = addHorarios
+}
+
+// abrirDelete(){
+//     abrirAdd.value = true
+// }
+
+// abrirAdd(){
+//     abrirAdd.value = true
+// }
+
+function fecharAba(){
+    componentSelecionado.value = null
+}
 
 
 async function buscarHorarios(data) {
   try {
-    const response = await axios.get(`https://barber-project-backend.vercel.app/horarios?data=${data}`)
+    const response = await axios.get(import.meta.env.VITE_URL_API+`/horarios?data=${data}`)
     horarios.value = response.data
   } catch (error) {
     console.error('Erro ao buscar horários:', error)
     horarios.value = []
   }
 }
+
+
+
+
 
 
 </script>

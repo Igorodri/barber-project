@@ -1,23 +1,25 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 
-import meusHorarios from '../PageClienteComponents/horariosClienteComponent.vue'
+import Horarios from '../PageClienteComponents/horariosClienteComponent.vue'
 import cartaoFidelidade from '../PageClienteComponents/cartaoFidelidadeComponent.vue'
+import meusHorarios from '../PageClienteComponents/meushorariosComponent.vue'
 
 const abaAtual = ref('horarios')
 const username = ref('')
 
 const abas = [
     { id: 'horarios', label: 'Horários' },
+    {id: 'meushorarios', label: 'Meus Horários'},
     { id: 'cartaoFidelidade', label: 'Cartão Fidelidade' }
 ]
 
 const componentSelecionado = computed(() => {
     switch (abaAtual.value) {
         case 'horarios':
+            return Horarios
+        case 'meushorarios':
             return meusHorarios
-        case 'agenda':
-            return agenda
         case 'cartaoFidelidade':
             return cartaoFidelidade
         default:
