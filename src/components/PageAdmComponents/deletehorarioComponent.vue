@@ -2,17 +2,13 @@
 
     <section class="config">
 
-        <form @submit.prevent="addHorarios">
+        <form @submit.prevent="deleteHorario">
             <div class="area-title">
-                <h2>Adicionar horário</h2>
+                <h2>Deletar horário</h2>
             </div>
             
-
-            <label for="">Data</label>
-            <input type="date" v-model="date">
-
-            <label for="">Hora</label>
-            <input type="time" v-model="hora">
+            <label for="">Id</label>
+            <input type="number" v-model.number="id">
 
 
             <div class="area-btn">
@@ -37,17 +33,17 @@ import 'toastify-js/src/toastify.css'
 
 const date = ref('');
 const hora = ref('');
+const id = ref(null)
 
-async function addHorarios(){
+async function deleteHorario(){
     try{
-        const response = await fetch(import.meta.env.VITE_URL_API+'/horarios-criar', {
-            method:'POST',
+        const response = await fetch(import.meta.env.VITE_URL_API+'/horarios-deletar', {
+            method:'DELETE',
             headers: {
                 'Content-Type':'application/json'
             },
             body: JSON.stringify({
-                date: date.value,
-                hora: hora.value
+                id: id.value,
             })
         })
 
@@ -55,7 +51,7 @@ async function addHorarios(){
 
         if(response.ok){
             Toastify({
-                text: "Horário cadastrado com sucesso!",
+                text: "Horário deletado com sucesso!",
                 close:true,
                 duration: 3000,
                 gravity: "top",
@@ -69,10 +65,9 @@ async function addHorarios(){
             hora.value = ''
 
             location.reload()
-            
         }else{
             Toastify({
-                text: "Não foi possível cadastrar o horário",
+                text: "Não foi possível deletar o horário",
                 close:true,
                 duration: 3000,
                 gravity: "top",

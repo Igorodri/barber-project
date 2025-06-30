@@ -2,11 +2,13 @@
 
     <section class="config">
 
-        <form @submit.prevent="addHorarios">
+        <form @submit.prevent="editarHorario">
             <div class="area-title">
-                <h2>Adicionar horário</h2>
+                <h2>Editar horário</h2>
             </div>
             
+            <label for="">Id</label>
+            <input type="number" v-model="id">
 
             <label for="">Data</label>
             <input type="date" v-model="date">
@@ -27,7 +29,6 @@
 
 <style scoped>
 
-
 </style>
 
 <script setup>
@@ -37,15 +38,17 @@ import 'toastify-js/src/toastify.css'
 
 const date = ref('');
 const hora = ref('');
+const id = ref('')
 
-async function addHorarios(){
+async function editarHorario(){
     try{
-        const response = await fetch(import.meta.env.VITE_URL_API+'/horarios-criar', {
-            method:'POST',
+        const response = await fetch(import.meta.env.VITE_URL_API+'/horarios-editar', {
+            method:'PUT',
             headers: {
                 'Content-Type':'application/json'
             },
             body: JSON.stringify({
+                id: id.value,
                 date: date.value,
                 hora: hora.value
             })
@@ -55,7 +58,7 @@ async function addHorarios(){
 
         if(response.ok){
             Toastify({
-                text: "Horário cadastrado com sucesso!",
+                text: "Horário editado com sucesso!",
                 close:true,
                 duration: 3000,
                 gravity: "top",
@@ -65,14 +68,14 @@ async function addHorarios(){
                 }
             }).showToast();
 
+            id.value=''
             date.value = ''
             hora.value = ''
 
             location.reload()
-            
         }else{
             Toastify({
-                text: "Não foi possível cadastrar o horário",
+                text: "Não foi possível editar o horário",
                 close:true,
                 duration: 3000,
                 gravity: "top",

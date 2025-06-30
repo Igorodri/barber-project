@@ -9,8 +9,8 @@
             <div class="content-page">
                 <div class="area-btn">
                     <button class="add" @click="abrirAdd">Adicionar Horário</button>
-                    <button class="delete">Deletar Horário</button>
-                    <button class="put">Editar Horário</button>
+                    <button class="delete"@click="abrirDelete">Deletar Horário</button>
+                    <button class="put" @click="abrirEditar">Editar Horário</button>
                 </div>
 
         
@@ -101,22 +101,34 @@
 </style>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import axios from 'axios'
 import calendarioComponent from '../FuncionalidadesPerfil/calendarioComponent.vue'
 import boxCalendario from '../FuncionalidadesPerfil/boxCalendarioComponent.vue'
 
 import addHorarios from '../PageAdmComponents/addhorarioComponent.vue'
+import editarHorarioComponent from './editarHorarioComponent.vue'
+import deletehorarioComponent from './deletehorarioComponent.vue'
 
 const horarios = ref([])
 const componentSelecionado = ref('')
 const add = ref(false)
-// const abrirDelete = ref(false)
-// const abrirPut = ref(false)
+const put = ref(false)
+const deletar = ref(false)
 
 function abrirAdd(){
     add.value = !add.value
     componentSelecionado.value = addHorarios
+}
+
+function abrirEditar(){
+    put.value = !put.value
+    componentSelecionado.value = editarHorarioComponent
+}
+
+function abrirDelete(){
+    deletar.value = !deletar.value;
+    componentSelecionado.value = deletehorarioComponent
 }
 
 // abrirDelete(){
@@ -141,10 +153,5 @@ async function buscarHorarios(data) {
     horarios.value = []
   }
 }
-
-
-
-
-
 
 </script>
