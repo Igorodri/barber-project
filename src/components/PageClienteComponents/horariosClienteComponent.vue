@@ -49,7 +49,7 @@ const horarios = ref([])
 
 async function buscarHorarios(data) {
   try {
-    const response = await axios.get(`http://localhost:3000/horarios?data=${data}`)
+    const response = await axios.get(`https://barber-project-backend.vercel.app/horarios?data=${data}`)
     horarios.value = response.data
   } catch (error) {
     console.error('Erro ao buscar horários:', error)
