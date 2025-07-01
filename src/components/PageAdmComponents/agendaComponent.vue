@@ -8,12 +8,13 @@
       <div class="content-page">
 
         <div class="area-input">
+            <input type="date" v-model="buscaData" placeholder="Buscar por data" class="input-busca">
             <input type="number" v-model="buscaId" placeholder="Buscar por ID" class="input-busca"/>
         </div>
 
         <div class="area-box">
           <boxCalendarioComponent
-            v-for="(horario, i) in horariosFiltrados"
+            v-for="(horario, i) in horariosFiltradosIdData"
             :key="i"
             :id="horario.id"
             :dia="horario.data"
@@ -21,7 +22,7 @@
           />
         </div>
 
-        <p v-if="horariosFiltrados.length === 0" class="vazio">Nenhum horário encontrado.</p>
+        <p v-if="horariosFiltradosIdData.length === 0" class="sembusca">Nenhum horário encontrado.</p>
       </div>
     </div>
   </section>
@@ -35,12 +36,6 @@
   gap: 20px;
   padding: 20px;
   justify-items: center;
-}
-
-.vazio {
-  text-align: center;
-  font-style: italic;
-  margin-top: 40px;
 }
 
 .area-input{
@@ -57,7 +52,28 @@
   border-radius: 8px;
   width: 250px;
   color: var(--cor-fundo);
+  margin: 0px 15px 0px 15px;
 }
+
+/* Header Celular Menores */
+@media (min-width: 300px) and (max-width: 767px) {
+
+}
+
+/* Header tablets*/
+@media (min-width: 768px) and (max-width: 1024px) {
+
+
+}
+
+/* Header notebook*/
+@media (min-width: 1025px) and (max-width: 1440px) {
+.area-box {
+  grid-template-columns: repeat(3, 1fr);
+}
+}
+
+
 </style>
 
 <script setup>
@@ -67,9 +83,11 @@ import boxCalendarioComponent from '../FuncionalidadesPerfil/boxCalendarioCompon
 
 const horarios = ref([])
 const buscaId = ref('')
+const buscaData = ref('')
 
 function formatardata(dataISO) {
   const data = new Date(dataISO)
+  data.setHours(data.getHours() + 3)
   return data.toLocaleDateString('pt-BR', {
     day: '2-digit',
     month: '2-digit',
@@ -90,9 +108,12 @@ async function buscarHorarios() {
   }
 }
 
-const horariosFiltrados = computed(() => {
-  if (!buscaId.value) return horarios.value
-  return horarios.value.filter(h => h.id.toString().includes(buscaId.value))
+const horariosFiltradosIdData = computed(() => {
+  return horarios.value.filter(horario => {
+    const porId = buscaId.value ? horario.id.toString().includes(buscaId.value) : true
+    const porData = buscaData.value ? horario.data === formatardata(buscaData.value) : true
+    return porId && porData
+  })
 })
 
 onMounted(() => {

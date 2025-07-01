@@ -48,8 +48,7 @@ async function login(){
         router.push('/home');  
       }
          
-   
-
+    
       Toastify({
           text: "Login realizado com sucesso!",
           close:true,

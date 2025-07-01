@@ -77,9 +77,9 @@ onMounted(() => {
 
 <style scoped>
 .area-title{
+    margin: 50px 0px 50px 0px;
     display: flex;
     justify-content: center;
-    margin: 50px;
     font-size: 20px;
 }
 

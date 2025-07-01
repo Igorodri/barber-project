@@ -30,7 +30,7 @@ header{
 }
 
 .logo{
-    margin: 20px;
+    margin: 20px 0px 20px 0px;
 }
 
 .logo img{

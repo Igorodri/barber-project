@@ -1,16 +1,16 @@
 <template>
     <section class="section-page">
         <div class="page">
-            <component :is="componentSelecionado" @fechar="fecharAba"/>
+            <component :is="componentSelecionado" :abaSelecionada="abaSelecionada" @fechar="fecharAba"/>
             <div class="page-title">
                 <h1>Gerenciar Horários</h1>
             </div>
 
             <div class="content-page">
                 <div class="area-btn">
-                    <button class="add" @click="abrirAdd">Adicionar Horário</button>
-                    <button class="delete"@click="abrirDelete">Deletar Horário</button>
-                    <button class="put" @click="abrirEditar">Editar Horário</button>
+                    <button class="add" @click="abrirFormulario('adicionar')">Adicionar Horário</button>
+                    <button class="delete"@click="abrirFormulario('deletar')">Deletar Horário</button>
+                    <button class="put" @click="abrirFormulario('editar')">Editar Horário</button>
                 </div>
 
         
@@ -30,7 +30,7 @@
                         </div>
                         
 
-                        <p v-if="horarios.length === 0">Nenhum horário disponível.</p>
+                        <p v-if="horarios.length === 0" class="sembusca">Nenhum horário disponível.</p>
                     </div>  
                 </div>
 
@@ -101,43 +101,23 @@
 </style>
 
 <script setup>
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref, shallowRef, markRaw } from 'vue'
 import axios from 'axios'
 import calendarioComponent from '../FuncionalidadesPerfil/calendarioComponent.vue'
 import boxCalendario from '../FuncionalidadesPerfil/boxCalendarioComponent.vue'
 
-import addHorarios from '../PageAdmComponents/addhorarioComponent.vue'
-import editarHorarioComponent from './editarHorarioComponent.vue'
-import deletehorarioComponent from './deletehorarioComponent.vue'
+import formularioPPD from './formularioPPDComponent.vue'
 
 const horarios = ref([])
-const componentSelecionado = ref('')
-const add = ref(false)
-const put = ref(false)
-const deletar = ref(false)
+const componentSelecionado = shallowRef(null)
+const abaSelecionada = ref('')
 
-function abrirAdd(){
-    add.value = !add.value
-    componentSelecionado.value = addHorarios
+
+function abrirFormulario(tipo){
+    abaSelecionada.value = tipo
+    componentSelecionado.value = markRaw(formularioPPD)
 }
 
-function abrirEditar(){
-    put.value = !put.value
-    componentSelecionado.value = editarHorarioComponent
-}
-
-function abrirDelete(){
-    deletar.value = !deletar.value;
-    componentSelecionado.value = deletehorarioComponent
-}
-
-// abrirDelete(){
-//     abrirAdd.value = true
-// }
-
-// abrirAdd(){
-//     abrirAdd.value = true
-// }
 
 function fecharAba(){
     componentSelecionado.value = null
@@ -153,5 +133,6 @@ async function buscarHorarios(data) {
     horarios.value = []
   }
 }
+
 
 </script>
