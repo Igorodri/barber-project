@@ -3,15 +3,13 @@ import { ref, computed, onMounted } from 'vue'
 
 import HorariosAdm from './horariosAdmComponent.vue'
 import agenda from './agendaComponent.vue'
-import cartaoFidadeliAdmComponent from './cartaoFidadeliAdmComponent.vue'
 
 const abaAtual = ref('horariosadm')
 const username = ref('')
 
 const abas = [
     { id: 'horariosadm', label: 'Gerenciar Horários' },
-    {id: 'agenda', label: 'Agenda'},
-    { id: 'cartaoFidelidadeadm', label: 'Gerenciar Cartão Fidelidade' },
+    {id: 'agenda', label: 'Agenda'}
 ]
 
 const componentSelecionado = computed(() => {
@@ -20,8 +18,6 @@ const componentSelecionado = computed(() => {
             return HorariosAdm
         case 'agenda':
             return agenda
-        case 'cartaoFidelidadeadm':
-            return cartaoFidadeliAdmComponent
         default:
             return null
     }

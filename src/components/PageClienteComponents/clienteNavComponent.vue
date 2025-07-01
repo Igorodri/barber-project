@@ -2,7 +2,6 @@
 import { ref, computed, onMounted } from 'vue'
 
 import Horarios from '../PageClienteComponents/horariosClienteComponent.vue'
-import cartaoFidelidade from '../PageClienteComponents/cartaoFidelidadeComponent.vue'
 import meusHorarios from '../PageClienteComponents/meushorariosComponent.vue'
 
 const abaAtual = ref('horarios')
@@ -10,8 +9,7 @@ const username = ref('')
 
 const abas = [
     { id: 'horarios', label: 'Horários' },
-    {id: 'meushorarios', label: 'Meus Horários'},
-    { id: 'cartaoFidelidade', label: 'Cartão Fidelidade' }
+    {id: 'meushorarios', label: 'Meus Horários'}
 ]
 
 const componentSelecionado = computed(() => {
@@ -20,8 +18,6 @@ const componentSelecionado = computed(() => {
             return Horarios
         case 'meushorarios':
             return meusHorarios
-        case 'cartaoFidelidade':
-            return cartaoFidelidade
         default:
             return null
     }
