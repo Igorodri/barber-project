@@ -36,10 +36,19 @@
       <label>ID</label>
       <input type="number" v-model="id" required />
 
+      
+
       <div class="area-btn">
-        <button type="submit">Aplicar</button>
+        <button type="button" @click="confirmarExclusao">Aplicar</button>
         <button type="button" class="sair" @click="$emit('fechar')">Cancelar</button>
       </div>
+
+      <div class="confirmarExclusao">
+        <h3>Tem certeza que deseja deletar o ID: {{ id }}</h3>
+        <button type="submit">Confirmar</button>
+        <button type="button" class="sair" @click="fecharConfirmarExclusao">Cancelar</button>
+      </div>
+
     </form>
   </section>
 </template>
@@ -241,6 +250,28 @@ async function deleteHorario(){
     }
 }
 
+function confirmarExclusao(){
+    if(id.value == ''){
+        Toastify({
+            text: "Digite o Id do horário",
+            close:true,
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            style: {
+                background: "linear-gradient(to right, #ff0000, #ec5353)"
+            }
+        }).showToast();
+
+        return 0
+    }
+    document.getElementsByClassName('confirmarExclusao')[0].style.display = 'block'
+}
+
+function fecharConfirmarExclusao(){
+    document.getElementsByClassName('confirmarExclusao')[0].style.display = 'none'
+}
+
 </script>
 
 <style scoped>
@@ -309,7 +340,17 @@ async function deleteHorario(){
     margin-top: 50px;
 }
 
-.config .area-btn button{
+.confirmarExclusao{
+    display: none;
+    border: 2px solid var(--cor-principal);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 4px 0 15px var(--cor-sombra);
+    margin-top: 30px;
+    text-align: center;
+}
+
+.config .area-btn button, .confirmarExclusao button{
   width: 160px;
   border: none;
   border-radius: 5px;
