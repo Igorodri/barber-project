@@ -17,12 +17,22 @@
             v-for="(horario, i) in horariosFiltradosIdData"
             :key="i"
             :id="horario.id"
-            :dia="horario.data"
+            :dia="horario.dia"
             :horario="horario.hora"
           />
         </div>
 
-        <p v-if="horariosFiltradosIdData.length === 0" class="sembusca">Nenhum horário encontrado.</p>
+        <p v-if="horariosFiltradosIdData.length == 0" class="sembusca">Nenhum horário encontrado.</p>
+
+          <div class="paginacao" v-if="totalPaginas > 1">
+            <button @click="paginaAtual--" :disabled="paginaAtual === 1">Anterior</button>
+            
+            <span>Página {{ paginaAtual }} de {{ totalPaginas }}</span>
+
+            <button @click="paginaAtual++" :disabled="paginaAtual === totalPaginas">Próxima</button>
+          </div>
+
+        
       </div>
     </div>
   </section>
@@ -55,6 +65,29 @@
   margin: 0px 15px 0px 15px;
 }
 
+.paginacao {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+  padding-bottom: 50px;
+}
+
+.paginacao button {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background: var(--cor-primaria);
+  color: white;
+  cursor: pointer;
+}
+
+.paginacao button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
 /* Header Celular Menores */
 @media (min-width: 300px) and (max-width: 767px) {
 
@@ -77,13 +110,17 @@
 </style>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import axios from 'axios'
 import boxCalendarioComponent from '../FuncionalidadesPerfil/boxCalendarioComponent.vue'
 
 const horarios = ref([])
 const buscaId = ref('')
 const buscaData = ref('')
+
+const paginaAtual = ref(1)
+const totalPaginas = ref(1)
+const limite = 8
 
 function formatardata(dataISO) {
   const data = new Date(dataISO)
@@ -97,24 +134,38 @@ function formatardata(dataISO) {
 
 async function buscarHorarios() {
   try {
-    const response = await axios.get(import.meta.env.VITE_URL_API + '/agenda')
-    horarios.value = response.data.map(horario => ({
+    const response = await axios.get(import.meta.env.VITE_URL_API + '/agenda', {
+      params: {
+        page: paginaAtual.value,
+        limit: limite
+      }
+    })
+
+    const lista = response.data.dia || []
+
+    horarios.value = lista.map(horario => ({
       ...horario,
-      data: formatardata(horario.data)
+      dia: formatardata(horario.data)
     }))
+
+    totalPaginas.value = response.data.totalPages
+
   } catch (error) {
     console.error('Erro ao buscar horários:', error)
     horarios.value = []
   }
 }
 
+
 const horariosFiltradosIdData = computed(() => {
   return horarios.value.filter(horario => {
     const porId = buscaId.value ? horario.id.toString().includes(buscaId.value) : true
-    const porData = buscaData.value ? horario.data === formatardata(buscaData.value) : true
+    const porData = buscaData.value ? horario.dia === formatardata(buscaData.value) : true
     return porId && porData
   })
 })
+
+watch(paginaAtual, buscarHorarios)
 
 onMounted(() => {
   buscarHorarios()

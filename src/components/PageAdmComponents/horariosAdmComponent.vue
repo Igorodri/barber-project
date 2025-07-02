@@ -97,11 +97,10 @@
         text-align: center;
     }
 
-
 </style>
 
 <script setup>
-import { onMounted, ref, shallowRef, markRaw } from 'vue'
+import {ref, shallowRef, markRaw } from 'vue'
 import axios from 'axios'
 import calendarioComponent from '../FuncionalidadesPerfil/calendarioComponent.vue'
 import boxCalendario from '../FuncionalidadesPerfil/boxCalendarioComponent.vue'
@@ -118,11 +117,9 @@ function abrirFormulario(tipo){
     componentSelecionado.value = markRaw(formularioPPD)
 }
 
-
 function fecharAba(){
     componentSelecionado.value = null
 }
-
 
 async function buscarHorarios(data) {
   try {

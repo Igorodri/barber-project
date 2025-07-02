@@ -6,8 +6,7 @@
             </div>
             <div class="content-page">
                 <div class="area-btn">
-                    <button class="add">Marcar Horário</button>
-                    <button class="delete">Cancelar Horário</button>
+                    <button class="add" @click="marcarHorario">Marcar Horário</button>
                 </div>
 
 
@@ -18,12 +17,15 @@
                         <h2>Horários Disponíveis</h2>
                         <div :class="['container', { active: horarios.length > 2 }]">
                             <boxCalendario
-                            v-for="(horario,i) in horarios"
-                            :key = "i"
+                            v-for="(horario) in horarios"
+                            :key="horario.id"
                             :id="horario.id"
                             :dia="horario.dia"
-                            :horario = "horario.hora"
-                        />
+                            :horario="horario.hora"
+                            :selecionado="horario.id === horarioSelecionadoId"
+                            @selecionado="selecionarHorario"
+                            />
+
                         </div>
                         
 
@@ -39,13 +41,46 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import calendarioComponent from '../FuncionalidadesPerfil/calendarioComponent.vue'
 import boxCalendario from '../FuncionalidadesPerfil/boxCalendarioComponent.vue'
+import Toastify from 'toastify-js'
+import 'toastify-js/src/toastify.css'
 
 const horarios = ref([])
+const horarioSelecionadoId = ref(null)
+const token = localStorage.getItem('token')
+const id_user = ref(null)
 
+function decodeToken(token) {
+  try {
+    const payload = token.split('.')[1]
+    const decoded = JSON.parse(atob(payload))
+    return decoded
+  } catch (e) {
+    console.error('Token inválido', e)
+    return null
+  }
+}
+
+onMounted(() => {
+  if (token) {
+    const decoded = decodeToken(token)
+    if (decoded.id) {
+      id_user.value = decoded.id
+    }
+  }
+})
+
+
+function selecionarHorario(id){
+    if(horarioSelecionadoId.value === id){
+        horarioSelecionadoId.value = null
+    }else{
+        horarioSelecionadoId.value = id
+    }
+}
 
 async function buscarHorarios(data) {
   try {
@@ -55,6 +90,62 @@ async function buscarHorarios(data) {
     console.error('Erro ao buscar horários:', error)
     horarios.value = []
   }
+}
+
+async function marcarHorario(){
+    try{
+        const response = await fetch(import.meta.env.VITE_URL_API + `/marcar-horario`,{
+            method:'PUT',
+            headers: {
+                'Content-Type':'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                id_horario: horarioSelecionadoId.value,
+                id_user: id_user.value
+            })
+        })
+        const data = await response.json()
+
+        if(response.ok){
+            Toastify({
+                text: "Horário marcado com sucesso!",
+                close:true,
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                style: {
+                    background: "linear-gradient(to right, #00b09b, #96c93d)"
+                }
+            }).showToast();
+
+            location.reload()
+        }else{
+            Toastify({
+                text: "Selecione o horário que deseja agendar",
+                close:true,
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                style: {
+                    background: "linear-gradient(to right, #ff0000, #ec5353)"
+                }
+            }).showToast();
+        }
+
+    }catch(error){
+        Toastify({
+            text: "Erro de conexão com o servidor",
+            close:true,
+            duration: 3000,
+            gravity: "top",
+            position: "right",
+            style: {
+            background: "linear-gradient(to right, #ff0000, #ec5353)"
+            }
+        }).showToast();
+        console.error(error);
+    }
 }
 
 
@@ -89,15 +180,6 @@ async function buscarHorarios(data) {
     .add:hover{
         background-color: rgb(4, 228, 4);
     }
-
-    .delete{
-        background-color: rgb(193, 2, 2);
-    }
-
-    .delete:hover{
-        background-color: rgb(224, 4, 4);
-    }
-
 
     .area-horarios{
         width: 100%;

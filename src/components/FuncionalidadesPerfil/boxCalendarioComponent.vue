@@ -1,5 +1,5 @@
 <template>
-    <div class="box-calendario">
+    <div class="box-calendario" :class="{ clicado: selecionado }" @click="clicarHorario">
 
         <div class="content">
             <div class="area-top">
@@ -16,13 +16,22 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, defineEmits } from 'vue';
 
  const props = defineProps({
     id: Number,
     dia: String,
-    horario: String
+    horario: String,
+    selecionado: Boolean
 })
+
+const id = props.id
+
+const emit = defineEmits(['selecionado'])
+
+function clicarHorario(){
+    emit('selecionado', id)
+}
 </script>
 
 
@@ -35,6 +44,7 @@ import { defineProps } from 'vue';
     color: white;
     border-radius: 12px;
     margin: 15px 0px 15px 0px;
+    cursor: pointer;
 }
 
 .content{
@@ -50,6 +60,9 @@ import { defineProps } from 'vue';
     margin-top: 30px;
 }
 
+.box-calendario.clicado {
+  background-color: var(--cor-principal);
+}
 </style>
 
 

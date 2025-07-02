@@ -8,14 +8,11 @@
             <img :src="profile" alt="img-perfil" class="img_perfil">
             <div v-if="mostrandoMenu" class="menu">
                 <ul>
-                <li @click="configuracoes">Configurações</li>
                 <li @click="sair">Sair</li>
                 </ul>
             </div>
         </div>
     </header>
-
-    <component :is="componentSelecionado" @fechar="fecharConfiguracoes"/>
 </template>
 
 <style>
@@ -91,15 +88,12 @@ header{
 <script setup>
 import logo from '../src/assets/logo.png'
 import profile from '../src/assets/profile.png'
-import { useRoute, useRouter } from 'vue-router';
+import {useRouter } from 'vue-router';
 import {ref} from 'vue'
-import Configuracoes from './components/FuncionalidadesPerfil/configuracoes.vue';
 
-const route = useRoute()
 const router = useRouter()
 
 const mostrandoMenu = ref(false);
-const componentSelecionado = ref('')
 
 function mostrarMenu(){
     mostrandoMenu.value = !mostrandoMenu.value  
@@ -112,11 +106,5 @@ function sair(){
   
 }
 
-function configuracoes(){
-    componentSelecionado.value = Configuracoes
-}
 
-function fecharConfiguracoes(){
-    componentSelecionado.value = null
-}
 </script>

@@ -1,16 +1,15 @@
 <script setup>
 import { ref, onMounted, defineEmits } from 'vue'
-import axios from 'axios'
 
 const emit = defineEmits(['dataSelecionada']) 
 const hoje = new Date()
-const diaAtrual = ref(hoje.getDay())
 const mesAtual = ref(hoje.getMonth())
 const anoAtual = ref(hoje.getFullYear())
 const diasSelecionados = ref([])
 
 function selecionarDia(dia) {
   const data = new Date(anoAtual.value, mesAtual.value, dia)
+  data.setHours(0, 0, 0, 0) 
   const iso = data.toISOString().split('T')[0]
   diasSelecionados.value = [iso]
   emit('dataSelecionada', iso) 
@@ -35,6 +34,7 @@ function diasDoMes(mes, ano) {
 
 function selecionarHoje() {
   const hoje = new Date()
+  hoje.setHours(0, 0, 0, 0) 
   const iso = hoje.toISOString().split('T')[0]
   diasSelecionados.value = [iso]
   emit('dataSelecionada', iso) 
