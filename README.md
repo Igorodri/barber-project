@@ -20,7 +20,7 @@ Sistema de controle de agendamentos de horários para barbearias, desenvolvido c
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/seu-usuario/barber-project.git
+git clone https://github.com/Igorodri/barber-project
 cd barber-project
 ```
 
