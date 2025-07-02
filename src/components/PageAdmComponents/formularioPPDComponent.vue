@@ -44,7 +44,7 @@
       </div>
 
       <div class="confirmarExclusao">
-        <h3>Tem certeza que deseja deletar o ID: {{ id }}</h3>
+        <h3>Tem certeza que deseja deletar o agendamento de ID: {{ id }}</h3>
         <button type="submit">Confirmar</button>
         <button type="button" class="sair" @click="fecharConfirmarExclusao">Cancelar</button>
       </div>
@@ -360,5 +360,30 @@ function fecharConfirmarExclusao(){
   margin: 0px 10px 0px 10px;
   cursor: pointer;
 }
+
+/*Celular*/
+@media (min-width: 300px) and (max-width: 767px) {
+    .config form{
+    height: 450px;
+    width: 100%
+}
+
+.config .area-btn button, .confirmarExclusao button{
+  width: 120px;
+}
+
+}
+
+/*tablets*/
+@media (min-width: 768px) and (max-width: 1024px) {
+
+
+}
+
+/*notebook*/
+@media (min-width: 1025px) and (max-width: 1440px) {
+
+}
+
 
 </style>

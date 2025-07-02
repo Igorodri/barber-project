@@ -14,11 +14,12 @@
 
         <div class="area-box">
           <boxCalendarioComponent
-            v-for="(horario, i) in horariosFiltradosIdData"
-            :key="i"
+            v-for="(horario) in horariosFiltradosIdData"
+            :key="horario.id"
             :id="horario.id"
             :dia="horario.dia"
             :horario="horario.hora"
+            :usuario="horario.username"
           />
         </div>
 
@@ -88,23 +89,53 @@
   cursor: not-allowed;
 }
 
-/* Header Celular Menores */
+/*Celular*/
 @media (min-width: 300px) and (max-width: 767px) {
+  .area-box {
+  grid-template-columns: repeat(1, 1fr);
+  justify-content: center;
+}
+
+.area-input{
+    flex-direction: column;
+    align-items: center;
+}
+
+.area-input input, .area-input button{
+  margin: 10px 0px 10px 0px;
+}
+
+.confirmarExclusao{
+    width: 80%;
+}
+
+.confirmarExclusao button{
+  margin: 10px 0px 10px 0px;
+}
+
+
+
 
 }
 
-/* Header tablets*/
+/*tablets*/
 @media (min-width: 768px) and (max-width: 1024px) {
+.area-box {
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+}
 
 
 }
 
-/* Header notebook*/
+/*notebook*/
 @media (min-width: 1025px) and (max-width: 1440px) {
 .area-box {
   grid-template-columns: repeat(3, 1fr);
 }
 }
+
+
 
 
 </style>

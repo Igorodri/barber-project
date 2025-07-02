@@ -15,7 +15,7 @@
 
         <div class="area-confirmarExclusao">
           <div class="confirmarExclusao">
-                <h3>Tem certeza que deseja deletar o ID: {{ horarioSelecionadoId }}</h3>
+                <h3>Tem certeza que deseja cancelar o agendamento de ID: {{ horarioSelecionadoId }}</h3>
                 <button type="button" @click="cancelarHorario()">Confirmar</button>
                 <button type="button" class="sair" @click="fecharCancelar">Cancelar</button>
           </div>
@@ -24,8 +24,8 @@
 
         <div class="area-box">
             <boxCalendario
-            v-for="(horario,i) in horariosFiltradosIdData"
-            :key="i"
+            v-for="(horario) in horariosFiltradosIdData"
+            :key="horario.id"
             :id="horario.id"
             :dia="horario.dia"
             :horario="horario.hora"
@@ -158,18 +158,46 @@
 }
 
 
-/* Header Celular Menores */
+/*Celular*/
 @media (min-width: 300px) and (max-width: 767px) {
+  .area-box {
+  grid-template-columns: repeat(1, 1fr);
+  justify-content: center;
+}
+
+.area-input{
+    flex-direction: column;
+    align-items: center;
+}
+
+.area-input input, .area-input button{
+  margin: 10px 0px 10px 0px;
+}
+
+.confirmarExclusao{
+    width: 80%;
+}
+
+.confirmarExclusao button{
+  margin: 10px 0px 10px 0px;
+}
+
+
+
 
 }
 
-/* Header tablets*/
+/*tablets*/
 @media (min-width: 768px) and (max-width: 1024px) {
+.area-box {
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+}
 
 
 }
 
-/* Header notebook*/
+/*notebook*/
 @media (min-width: 1025px) and (max-width: 1440px) {
 .area-box {
   grid-template-columns: repeat(3, 1fr);
@@ -193,7 +221,7 @@ const horarioSelecionadoId = ref(null)
 
 const paginaAtual = ref(1)
 const totalPaginas = ref(1)
-const limite = 10
+const limite = 8
 
 const token = localStorage.getItem('token') 
 

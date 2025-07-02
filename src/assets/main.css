@@ -20,8 +20,6 @@
 }
 
 
-
-
 body{
   background-color: var(--cor-fundo);
 }
@@ -57,6 +55,9 @@ body.blur{
 }
 
 @media (min-width: 300px) and (max-width: 767px) {
+.page{
+  width: 100%;
+}
 
 }
 
@@ -72,6 +73,9 @@ body.blur{
 }
 
 }
+
+
+
 
 
 

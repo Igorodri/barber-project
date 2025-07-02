@@ -93,4 +93,25 @@ nav span:hover {
 .selecionado {
     color: var(--cor-principal);
 }
+
+
+/*Celular*/
+@media (min-width: 300px) and (max-width: 767px) {
+.area-title{
+    font-size: 18px;
+    margin: 50px 0px 50px 0px;
+}
+}
+
+/*tablets*/
+@media (min-width: 768px) and (max-width: 1024px) {
+
+
+}
+
+/*notebook*/
+@media (min-width: 1025px) and (max-width: 1440px) {
+
+}
+
 </style>

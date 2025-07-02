@@ -83,6 +83,24 @@ header{
   color: var(--cor-principal);
 }
 
+/*Celular*/
+@media (min-width: 300px) and (max-width: 767px) {
+header{
+    padding: 0px 20px 0px 20px;
+}
+}
+
+/*tablets*/
+@media (min-width: 768px) and (max-width: 1024px) {
+
+
+}
+
+/*notebook*/
+@media (min-width: 1025px) and (max-width: 1440px) {
+
+}
+
 </style>
 
 <script setup>

@@ -9,6 +9,7 @@
 
             <div class="horario">
                 <p>{{ horario }}</p>
+                <p>{{ usuario }}</p>
             </div>
         </div>
 
@@ -22,6 +23,7 @@ import { defineProps, defineEmits } from 'vue';
     id: Number,
     dia: String,
     horario: String,
+    usuario:String,
     selecionado: Boolean
 })
 
@@ -57,6 +59,9 @@ function clicarHorario(){
 }
 
 .horario{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
     margin-top: 30px;
 }
 

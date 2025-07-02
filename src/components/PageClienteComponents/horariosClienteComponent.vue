@@ -191,6 +191,42 @@ async function marcarHorario(){
     h2{
         text-align: center;
     }
+    
+/*Celular*/
+@media (min-width: 300px) and (max-width: 1024px) {
+    .content-page{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .area-horarios{
+        width: 90%;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .horarios-disponiveis{
+        flex-direction: column;
+        margin-top: 30px;
+        padding-bottom: 40px;
+    }
+
+    .area-btn{
+        margin-top: 40px;
+    }
+}
+
+/*tablets*/
+@media (min-width: 768px) and (max-width: 1024px) {
+
+
+}
+
+/*notebook*/
+@media (min-width: 1025px) and (max-width: 1440px) {
+
+}
 
 
 </style>

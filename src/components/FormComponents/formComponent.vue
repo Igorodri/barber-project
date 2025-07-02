@@ -246,18 +246,20 @@ async function cadastro(){
     text-decoration: none;
 }
 
-/* Header Celular Menores */
+/*Celular*/
 @media (min-width: 300px) and (max-width: 767px) {
-
+.form{
+    height: 100vh;
+}
 }
 
-/* Header tablets*/
+/*tablets*/
 @media (min-width: 768px) and (max-width: 1024px) {
 
 
 }
 
-/* Header notebook*/
+/*notebook*/
 @media (min-width: 1025px) and (max-width: 1440px) {
 .form{
     height: 100vh;
